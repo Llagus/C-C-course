@@ -15,7 +15,7 @@ inline void sum (int& result, int range, vector<int> v){
 
 int main(){
     int acum;
-    vector<int> numeric_list; 
+    vector<int> numeric_list(lenght); 
     //create the vector
     for(int i = 0; i < lenght; ++i){
         numeric_list[i]=i;
