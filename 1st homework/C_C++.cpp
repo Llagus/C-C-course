@@ -5,13 +5,13 @@ Homework 1: Convert a C program to C++
 #include <iostream>
 #include <vector>
 using namespace std; 
-const int lenght = 60;
+const int lenght = 80;
 
 //create the function sum, that will sum all the elements of a vector
 inline void sum (int& result, int range, vector<int> v){
     result = 0;
     for(int i = 0; i < range; ++i){
-        result = result + v[i];
+        result += v[i];
     }
 }
 
