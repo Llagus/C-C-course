@@ -17,8 +17,8 @@ class point {
         double gety()const{return this->y;} 
         void setvalue(double x, double y){this->x = x; this->y = y; } 
 
-        point operator+ (point& p){
-            point sum = point(p.getx()+this->x, p.gety()+this->y);
+        const point& operator+ (const point& p){
+            const point& sum = point(p.getx()+this->x, p.gety()+this->y);
             return sum; 
         }
     private: 
