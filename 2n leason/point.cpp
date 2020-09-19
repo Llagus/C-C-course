@@ -11,23 +11,26 @@ class point {
             this->x = 0.0;
             this->y = 0.0;
         }
-        double getx(){return this->x;}
-        double gety(){return this->y;} 
+
+
+        double getx()const{return this->x;}
+        double gety()const{return this->y;} 
         void setvalue(double x, double y){this->x = x; this->y = y; } 
+
+        point operator+ (point& p){
+            point sum = point(p.getx()+this->x, p.gety()+this->y);
+            return sum; 
+        }
     private: 
         double x,y;
 };
-
-//Overrides: 
-point operator+ (point& p1, point& p2){
-    point sum = {p1.getx()+p2.getx(),p1.gety()+p2.gety()};
-    return sum; 
-}
-
-ostream& operator<< (ostream& out, point& p){
+    ostream& operator<< (ostream& out, point& p){
     out<<"("<<p.getx()<<","<<p.gety()<<")"<<endl;
     return out; 
-}
+    }
+
+
+
 
 //main program
 int main() {
