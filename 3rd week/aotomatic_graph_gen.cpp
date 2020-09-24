@@ -12,6 +12,33 @@ double prob(){
     return prob; 
 }
 
+bool is_connected(bool* graph[], int size){
+
+    //initialize open and close arrays:
+    int old_size = 0, c_size = 0;
+    bool* close = new bool[size];
+    bool* open = new bool[size];
+    for(int i = 0; i < size; i++)
+        open[i]=close[i]=false;
+    open[0] = true;
+
+    while(c_size<size){
+        for (int i = 0; i < size; ++i){
+            old_size = c_size;
+            if (open[i]&&(close[i]==false)){
+                close[i]= true;
+                c_size++;
+            }
+            for (int j = 0; j < size;j++){
+                open[j] = open[j]||graph[i][j];
+            }
+        }
+        if (c_size == size) return true;
+        if (old_size == c_size)return false;
+    }
+
+}
+
 int main (){
     const int size = 7;
     const double density = 0.2; 
@@ -41,5 +68,10 @@ int main (){
             else if (graph[i][j] == true) cout<< j<<",";    
         }
     }
+    //graph connected or not?
+    if (is_connected(graph, size)) cout<<"Is a connected graph"<<endl;
+    else cout<<"Unconnected graph"<<endl;
+
+    return 0;
 }
 
