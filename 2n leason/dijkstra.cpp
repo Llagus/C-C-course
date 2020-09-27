@@ -65,6 +65,15 @@ class Graph{
             }
             cout<<endl; 
         }
+        void add(int node_x, int node_y){
+            if (this->adjacent(node_x,node_y)){
+                cout<<"This edge already exist"<<endl;
+            }else{
+                graphEdge e = {node_x, node_y, rand()%10}; 
+                this->l_edge.push_back(e);
+                this->graph[node_x][node_y] = e.cost; 
+            }
+        }
 
 
         void print();
@@ -103,6 +112,7 @@ int main (){
     cout<<"The number of nodes is: "<<static_cast<int>(g->N_nodes())<<endl;
     cout<<"The number of edges is:"<<g->N_edges()<<endl;
     cout<<"The nodes 1 have and edge with node 3: "<<static_cast<bool>(g->adjacent(1,3))<<endl; 
+    g->add(3,0);
     g->neighbors(3); 
     
     //g.print();
