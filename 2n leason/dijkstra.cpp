@@ -41,7 +41,7 @@ class Graph{
                     if(i==j||(prob()>density)) this->graph[i][j]= this->graph[j][i]= 0;
                     else{
                         graphEdge edge = {i,j,rand()%10};
-                        this->graph[i][j] = this->graph[j][i] = edge.cost;
+                        this->graph[i][j] = edge.cost;
                         this->l_edge.push_back(edge); 
                     } 
                 }
@@ -50,6 +50,22 @@ class Graph{
         //Graph():nodes(0),l_edge(0),graph(0){}//null constructor
         int N_nodes(){return this->nodes.size();}
         int N_edges(){return this->l_edge.size();}
+        bool adjacent(int x, int y){
+            for(vector<graphEdge>::iterator it = l_edge.begin(); it!=l_edge.end(); ++it){
+                if (it->start_ver==x && it->end_ver == y) return true; 
+            }
+            return false; 
+        }
+        void neighbors(int x){
+            cout<<"The node "<<x<<" has and edge with:";
+            for (vector<graphEdge>::iterator it = l_edge.begin(); it!=l_edge.end(); ++it){
+                if (it->start_ver==x){
+                    cout<<it->end_ver<<" "; 
+                }
+            }
+            cout<<endl; 
+        }
+
 
         void print();
 
@@ -86,6 +102,8 @@ int main (){
     Graph* g = new Graph(n_nodes, density);  
     cout<<"The number of nodes is: "<<static_cast<int>(g->N_nodes())<<endl;
     cout<<"The number of edges is:"<<g->N_edges()<<endl;
+    cout<<"The nodes 1 have and edge with node 3: "<<static_cast<bool>(g->adjacent(1,3))<<endl; 
+    g->neighbors(3); 
     
     //g.print();
 
