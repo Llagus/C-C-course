@@ -3,11 +3,64 @@
  *******************************/ 
 #include <iostream>
 #include <vector>
+#include <ctime>
+#include <cstdlib>
 using namespace std; 
 
-struct graphEdge{
+class graphEdge{
+    public:
     int start_ver, end_ver, cost;
+    graphEdge(int start_ver = 0, int end_ver = 0, int cost = 0):start_ver(start_ver),end_ver(end_ver), cost(cost){
+        
+    }
 };
+
+ostream& operator<< (ostream& out,graphEdge& e){
+    out<<"Nodes:"<< e.start_ver<<","<< e.end_ver<< "\t cost:" << e.cost<<endl;
+    return out; 
+}
+
+
+double prob(){
+    double prob = 0.0; 
+        prob = rand()%360; 
+        if (prob > 360.0) prob = 1.0; 
+        else if (prob < 0.0 ) prob = 0.0; 
+        else prob = prob/360.0; 
+    return prob; 
+}
+
+class Graph{
+    public: 
+        Graph(int n_nodes, double density){//random graph constructor
+            this->nodes.resize(n_nodes);
+            this->graph.resize(n_nodes, vector<int> (n_nodes));
+            for(int i = 0; i < n_nodes; i++){
+                this->nodes[i] = i; 
+                for(int j = 0; j < n_nodes; j++){
+                    if(i==j||(prob()>density)) this->graph[i][j]= this->graph[j][i]= 0;
+                    else{
+                        graphEdge edge = {i,j,rand()%10};
+                        this->graph[i][j] = this->graph[j][i] = edge.cost;
+                        this->l_edge.push_back(edge); 
+                    } 
+                }
+            }
+        }
+        //Graph():nodes(0),l_edge(0),graph(0){}//null constructor
+        int N_nodes(){return this->nodes.size();}
+        int N_edges(){return this->l_edge.size();}
+
+        void print();
+
+
+
+    private:
+        vector<int> nodes; 
+        vector<graphEdge> l_edge;
+        vector<vector<int>> graph; 
+};
+/*
 class Graph{
     public: 
         //construct a vector of vectors to represent an edge list
@@ -20,13 +73,21 @@ class Graph{
                 edgeList[graphEdge.start_ver].push_back(graphEdge.end_ver); 
             }
         }
-
-};
+        Graph():edgeList(0){}
+};*/
 
 
 int main (){
-    int V = 5; 
-    vector<int> graph[V];
+
+    const int n_nodes = 7; 
+    const double density = 0.2; 
+    //radomize values
+    srand(time(0));//create the seed
+    Graph* g = new Graph(n_nodes, density);  
+    cout<<"The number of nodes is: "<<static_cast<int>(g->N_nodes())<<endl;
+    cout<<"The number of edges is:"<<g->N_edges()<<endl;
+    
+    //g.print();
 
     return 0; 
 }
