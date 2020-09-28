@@ -11,7 +11,6 @@ class graphEdge{
     public:
     int start_ver, end_ver, cost;
     graphEdge(int start_ver = 0, int end_ver = 0, int cost = 0):start_ver(start_ver),end_ver(end_ver), cost(cost){
-        
     }
 };
 
@@ -74,6 +73,22 @@ class Graph{
                 this->graph[node_x][node_y] = e.cost; 
             }
         }
+        void del(int node_x, int node_y){
+            int i = 0;
+            if(this->adjacent(node_x, node_y)){
+                this->graph[node_x][node_y] = 0;
+
+                for(vector<graphEdge>::iterator it = l_edge.begin(); it!=l_edge.begin(); ++it){
+                    if(it->start_ver!=node_x && it->end_ver!=node_y){
+                        l_edge[i] = *it; 
+                        i = i+1; 
+                    }
+                }
+            }
+            else{
+                cout<<"This edge doesn't exist"<<endl;
+            }
+        }
 
 
         void print();
@@ -114,6 +129,8 @@ int main (){
     cout<<"The nodes 1 have and edge with node 3: "<<static_cast<bool>(g->adjacent(1,3))<<endl; 
     g->add(3,0);
     g->neighbors(3); 
+    g->del(3,0);
+    g->neighbors(3);
     
     //g.print();
 
