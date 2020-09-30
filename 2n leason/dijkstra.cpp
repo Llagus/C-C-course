@@ -20,6 +20,11 @@ class Node{
         bool visited; 
         int current_cost; 
         Node(int id = 0, bool visited = false, int current_cost = 0):id(id),visited(visited),current_cost(current_cost){}
+
+        bool operator==(Node& node){
+            if(this->current_cost==node.current_cost && this->id == node.id && this->visited == node.visited) return true; 
+            return false;
+        }
 };
 
 ostream& operator<< (ostream& out,graphEdge& e){
@@ -43,7 +48,7 @@ class Graph{
             this->nodes.resize(n_nodes);
             this->graph.resize(n_nodes, vector<int> (n_nodes));
             for(int i = 0; i < n_nodes; i++){
-                this->nodes[i] = i; 
+                this->nodes[i] = {i,false,0}; 
                 for(int j = 0; j < n_nodes; j++){
                     if(i==j||(prob()>density)) this->graph[i][j]= this->graph[j][i]= 0;
                     else{
@@ -121,7 +126,7 @@ class Graph{
 
 
     private:
-        vector<int> nodes; 
+        vector<Node> nodes; 
         vector<graphEdge> l_edge;
         vector<vector<int>> graph; 
 };
@@ -129,21 +134,40 @@ class Graph{
 class PriorityQueue{
     public:
         PriorityQueue():queue(0){}//null constructor
+        PriorityQueue(Node node){
+            this->queue.push_back(node);
+        }
         void chgPriority();
         //removes the top element of the queue; 
         void minPriority(){
             this->queue.pop_back(); 
         }
-        bool contains(int ){
+        bool contains(Node node){
+            Node n;  
+            return n == node;
+            for(vector<Node>::iterator it = this->queue.begin(); it!=queue.end(); ++it ){
+                if (node == *it) return true;
+            }
+
+            return false; 
+        }
+        void insert(Node node){
+            for(vector<Node>::iterator it = this->queue.begin(); it!=queue.end(); ++it ){
+                if (it->current_cost>=node.current_cost)
+                this->queue.emplace(it,node); 
+                break;
+            }
             
-        } 
-        void insert(int nodes); 
-        PriorityQueue top(); 
-        int size(); 
+        }
+        Node top(){
+            return this->queue.front(); 
+        }
+        int size(){
+            return this->queue.size();
+        }
 
     private:
-        vector<graphEdge> queue; 
-
+        vector<Node> queue; 
 
 };
 
