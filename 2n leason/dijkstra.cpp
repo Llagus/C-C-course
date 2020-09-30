@@ -46,7 +46,7 @@ class Graph{
                 }
             }
         }
-        //Graph():nodes(0),l_edge(0),graph(0){}//null constructor
+        Graph():nodes(0),l_edge(0),graph(0){}//null constructor
         int N_nodes(){return this->nodes.size();}
         int N_edges(){return this->l_edge.size();}
         bool adjacent(int x, int y){
@@ -115,26 +115,18 @@ class Graph{
         vector<graphEdge> l_edge;
         vector<vector<int>> graph; 
 };
-/*
-class Graph{
-    public: 
-        //construct a vector of vectors to represent an edge list
-        vector<vector<int>> edgeList; 
-        // Graph constructor
-        Graph(vector<graphEdge> const &graphEdge, int N){
-            edgeList.resize(N);
-            //add edges to the directed graph
-            for (auto &graphEdge: graphEdge){
-                edgeList[graphEdge.start_ver].push_back(graphEdge.end_ver); 
-            }
-        }
-        Graph():edgeList(0){}
-};*/
+
+class PriorityQueue{
+    public:
+
+    private:
+
+};
 
 
 int main (){
 
-    const int n_nodes = 7; 
+    const int n_nodes = 50; 
     const double density = 0.2; 
     //radomize values
     srand(time(0));//create the seed
