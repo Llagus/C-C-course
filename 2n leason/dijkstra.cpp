@@ -78,16 +78,31 @@ class Graph{
             if(this->adjacent(node_x, node_y)){
                 this->graph[node_x][node_y] = 0;
 
-                for(vector<graphEdge>::iterator it = l_edge.begin(); it!=l_edge.begin(); ++it){
-                    if(it->start_ver!=node_x && it->end_ver!=node_y){
-                        l_edge[i] = *it; 
-                        i = i+1; 
+                for(vector<graphEdge>::iterator it = this->l_edge.begin(); it!= this->l_edge.end(); ++it){
+                    if(it->start_ver==node_x && it->end_ver==node_y){
+                        l_edge.erase(it); 
+                        break;
                     }
                 }
             }
             else{
                 cout<<"This edge doesn't exist"<<endl;
             }
+        }
+        int get_edge_value(int node_x, int node_y){
+            return this->graph[node_x][node_y];
+        }
+
+        void set_edge_value(int node_x, int node_y, int value){
+            for (vector<graphEdge>::iterator it = this->l_edge.begin();it!=this->l_edge.end(); ++it){
+                if (it->start_ver==node_x && it->end_ver==node_y){
+                    it->cost = value;
+                    break;
+                }
+            }
+            graphEdge e = {node_x, node_y, value}; 
+            this->l_edge.push_back(e);
+            this->graph[node_x][node_y] = e.cost; 
         }
 
 
