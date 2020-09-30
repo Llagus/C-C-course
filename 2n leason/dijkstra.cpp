@@ -47,7 +47,9 @@ class Graph{
             }
         }
         Graph():nodes(0),l_edge(0),graph(0){}//null constructor
+        //Methods
         int N_nodes(){return this->nodes.size();}
+
         int N_edges(){return this->l_edge.size();}
         bool adjacent(int x, int y){
             for(vector<graphEdge>::iterator it = l_edge.begin(); it!=l_edge.end(); ++it){
@@ -118,9 +120,34 @@ class Graph{
 
 class PriorityQueue{
     public:
+        PriorityQueue():queue(0){}//null constructor
+        void chgPriority();
+        //removes the top element of the queue; 
+        void minPriority(){
+            this->queue.pop_back(); 
+        }
+        bool contains(int ){
+
+        } 
+        void insert(); 
+        PriorityQueue top(); 
+        int size(); 
 
     private:
+        vector<graphEdge> queue; 
 
+
+};
+
+class ShortestPath{
+    public:
+        void vertices(); 
+        void path(int node_x, int node_y);
+        void path_size(int node_x, int node_y); 
+
+    private: 
+    Graph *g = new Graph(); 
+    PriorityQueue *q = new PriorityQueue();
 };
 
 
