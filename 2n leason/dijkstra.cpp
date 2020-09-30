@@ -14,6 +14,14 @@ class graphEdge{
     }
 };
 
+class Node{
+    public: 
+        int id; 
+        bool visited; 
+        int current_cost; 
+        Node(int id = 0, bool visited = false, int current_cost = 0):id(id),visited(visited),current_cost(current_cost){}
+};
+
 ostream& operator<< (ostream& out,graphEdge& e){
     out<<"Nodes:"<< e.start_ver<<","<< e.end_ver<< "\t cost:" << e.cost<<endl;
     return out; 
@@ -127,9 +135,9 @@ class PriorityQueue{
             this->queue.pop_back(); 
         }
         bool contains(int ){
-
+            
         } 
-        void insert(); 
+        void insert(int nodes); 
         PriorityQueue top(); 
         int size(); 
 
@@ -141,13 +149,21 @@ class PriorityQueue{
 
 class ShortestPath{
     public:
-        void vertices(); 
-        void path(int node_x, int node_y);
+        //constructor 
+        ShortestPath(Graph* g = 0, int start_node = 0, int end_node= 0):g(g),start_node(start_node),end_node(end_node){}
+        void vertices(){
+            this->g->neighbors(this->start_node);
+        }
+        void path(int node_x, int node_y){
+            this->close_set->insert(node_x); 
+        }
         void path_size(int node_x, int node_y); 
 
     private: 
     Graph *g = new Graph(); 
-    PriorityQueue *q = new PriorityQueue();
+    PriorityQueue *close_set = new PriorityQueue();
+    PriorityQueue *open_set = new PriorityQueue(); 
+    int start_node, end_node; 
 };
 
 
