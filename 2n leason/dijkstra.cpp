@@ -77,14 +77,17 @@ class Graph{
             return false; 
         }
 
-        void neighbors(int x){
+        vector<graphEdge> neighbors(int x){
+            vector<graphEdge> neighbors; 
             cout<<"The node "<<x<<" has and edge with:";
             for (vector<graphEdge>::iterator it = l_edge.begin(); it!=l_edge.end(); ++it){
                 if (it->start_ver==x){
+                    neighbors.push_back(*it);
                     cout<<it->end_ver<<" "; 
                 }
             }
             cout<<endl; 
+            return neighbors; 
         }
 
         void add(int node_x, int node_y){
@@ -112,6 +115,14 @@ class Graph{
             else{
                 cout<<"This edge doesn't exist"<<endl;
             }
+        }
+
+        graphEdge get_edge(int node_x, int node_y){
+            for(vector<graphEdge>::iterator  it = this->l_edge.begin(); it!=this->l_edge.end(); ++it){
+                if (it->start_ver == node_x && it->end_ver == node_y) return *it;
+            }
+            cout<<"This edge doesn't exit."<<endl; 
+            return 0;  
         }
 
         int get_edge_value(int node_x, int node_y){
@@ -167,7 +178,7 @@ class PriorityQueue{
                 cout<<"This node is already in the queue"<<endl; 
             }else{
                 for(vector<Node>::iterator it = this->queue.begin(); it!=queue.end(); ++it ){
-                if (it->current_cost>=node.current_cost)
+                if (it->current_cost>node.current_cost)
                 this->queue.emplace(it,node); 
                 break;
                 }
@@ -190,14 +201,27 @@ class PriorityQueue{
 class ShortestPath{
     public:
         //constructor 
-        ShortestPath(Graph* g = 0, int start_node = 0, int end_node= 0):g(g),start_node(start_node),end_node(end_node){}
+        ShortestPath(Graph* g = 0, Node* start_node = 0, Node* end_node= 0):g(g),start_node(start_node),end_node(end_node){}
 
-        void vertices(){
-            this->g->neighbors(this->start_node);
+        void vertices(Node start_node){
+            vector<graphEdge> neighbors = this->g->neighbors(start_node.id);
+            for(vector<graphEdge>::iterator it = neighbors.begin(); it!= neighbors.end();++it){
+                Node* n = new Node(it->end_ver,false,it->cost+start_node.current_cost);
+                this->open_set->insert(*n); 
+            }            
+
         }
 
-        void path(int node_x, int node_y){
+        void path(Node node_x, Node node_y){
             this->close_set->insert(node_x); 
+            this->current_node = &node_x;    
+            this->vertices(*this->current_node);
+            while(!this->close_set->contains(node_y)){
+                this->close_set->insert(this->open_set->top()); 
+                this->current_node = close_set->back(); 
+            }
+                      
+            
         }
 
         void path_size(int node_x, int node_y); 
@@ -206,7 +230,9 @@ class ShortestPath{
         Graph *g = new Graph(); 
         PriorityQueue *close_set = new PriorityQueue();
         PriorityQueue *open_set = new PriorityQueue(); 
-        int start_node, end_node; 
+        Node* start_node = new Node();
+        Node* end_node = new Node(); 
+        Node* current_node = new Node();
 };
 
 
