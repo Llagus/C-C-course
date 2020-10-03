@@ -161,7 +161,10 @@ class PriorityQueue{
         void chgPriority(int priority){}
         //removes the top element of the queue; 
         void minPriority(){
-            this->queue.pop_back(); 
+            for(vector<Node>::iterator it = this->queue.begin(); it!=this->queue.end(); ++it){
+                this->queue.erase(it); 
+                break; 
+            }
         }
 
         bool contains(Node node){
@@ -178,19 +181,36 @@ class PriorityQueue{
                 cout<<"This node is already in the queue"<<endl; 
             }else{
                 for(vector<Node>::iterator it = this->queue.begin(); it!=queue.end(); ++it ){
-                if (it->current_cost>node.current_cost)
-                this->queue.emplace(it,node); 
-                break;
+                    if (it->id != node.id){
+                        if (it->current_cost>node.current_cost|| static_cast<Node>(0,false,0) == *it){ 
+                        this->queue.emplace(it,node);
+                        break;
+                        }
+                    }else if(it->id == node.id && it->current_cost>node.current_cost){
+                        this->queue.emplace(it,node); 
+                        break;
+                    }                  
                 }
             }   
         }
+        void resize(int lenght){
+            this->queue.resize(lenght);
+        } 
 
-        Node top(){
-            return this->queue.front(); 
+        Node* top(){
+            return &this->queue.front(); 
+        }
+
+        Node back(){
+            return this->queue.back();
         }
 
         int size(){
             return this->queue.size();
+        }
+
+        bool empty(){
+            return this->queue.empty();
         }
 
     private:
@@ -201,7 +221,10 @@ class PriorityQueue{
 class ShortestPath{
     public:
         //constructor 
-        ShortestPath(Graph* g = 0, Node* start_node = 0, Node* end_node= 0):g(g),start_node(start_node),end_node(end_node){}
+        ShortestPath(Graph* g = 0, Node* start_node = 0, Node* end_node= 0):g(g),start_node(start_node),end_node(end_node){
+            this->close_set->resize(g->N_nodes());
+            this->open_set->resize(g->N_nodes());
+        }
 
         void vertices(Node start_node){
             vector<graphEdge> neighbors = this->g->neighbors(start_node.id);
@@ -216,15 +239,26 @@ class ShortestPath{
             this->close_set->insert(node_x); 
             this->current_node = &node_x;    
             this->vertices(*this->current_node);
-            while(!this->close_set->contains(node_y)){
-                this->close_set->insert(this->open_set->top()); 
-                this->current_node = close_set->back(); 
+            while(!this->close_set->contains(node_y)||this->open_set->empty()){
+                this->close_set->insert(*this->open_set->top()); 
+                this->current_node = this->open_set->top();
+                
+                vertices(*current_node);
             }
-                      
-            
         }
 
-        void path_size(int node_x, int node_y); 
+        int path_size(Node node_x, Node node_y){
+            this->close_set->insert(node_x); 
+            this->current_node = &node_x;    
+            this->vertices(*this->current_node);
+            while(!this->close_set->contains(node_y)||this->open_set->empty()){
+                this->close_set->insert(*this->open_set->top()); 
+                this->current_node = this->open_set->top();
+                this->open_set->minPriority();
+                vertices(*current_node);
+            }
+            return this->close_set->back().current_cost;
+        }
 
     private: 
         Graph *g = new Graph(); 
@@ -233,16 +267,19 @@ class ShortestPath{
         Node* start_node = new Node();
         Node* end_node = new Node(); 
         Node* current_node = new Node();
+        vector<graphEdge> l_edge; 
 };
 
 
 int main (){
 
-    const int n_nodes = 50; 
+    const int n_nodes = 7; 
     const double density = 0.2; 
     //radomize values
     srand(time(0));//create the seed
     Graph* g = new Graph(n_nodes, density);  
+    Node* start_node = new Node(0,false,0);
+    Node* end_node = new Node(n_nodes-1, false, 0);
     cout<<"The number of nodes is: "<<static_cast<int>(g->N_nodes())<<endl;
     cout<<"The number of edges is:"<<g->N_edges()<<endl;
     cout<<"The nodes 1 have and edge with node 3: "<<static_cast<bool>(g->adjacent(1,3))<<endl; 
@@ -250,7 +287,8 @@ int main (){
     g->neighbors(3); 
     g->del(3,0);
     g->neighbors(3);
-    
+    ShortestPath* dijkstra = new ShortestPath(g, start_node, end_node);
+    cout<<"the path size from node:"<<start_node->id<<" to node: "<<end_node->id<<" is "<<dijkstra->path_size(start_node->id,end_node->id)<<endl;
     //g.print();
 
     return 0; 
