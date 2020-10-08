@@ -79,11 +79,11 @@ class Graph{
 
         vector<graphEdge> neighbors(int x){
             vector<graphEdge> neighbors; 
-            cout<<"The node "<<x<<" has and edge with:";
+            //cout<<"The node "<<x<<" has and edge with:";
             for (vector<graphEdge>::iterator it = l_edge.begin(); it!=l_edge.end(); ++it){
                 if (it->start_ver==x){
                     neighbors.push_back(*it);
-                    cout<<it->end_ver<<" "; 
+                    //cout<<it->end_ver<<" "; 
                 }
             }
             cout<<endl; 
@@ -182,7 +182,7 @@ class PriorityQueue{
             }else{
                 for(vector<Node>::iterator it = this->queue.begin(); it!=queue.end(); ++it ){
                     if (it->id != node.id){
-                        if (it->current_cost>node.current_cost|| static_cast<Node>(0,false,0) == *it){ 
+                        if (it->current_cost>node.current_cost|| dynamic_cast<Node*>(0,false,0) == it){ 
                         this->queue.emplace(it,node);
                         break;
                         }
