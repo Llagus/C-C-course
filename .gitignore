@@ -1,5 +1,6 @@
 /.vscode
 *.pdf
+*.out
 enum
 2n leason/dijkstra
 Hello
