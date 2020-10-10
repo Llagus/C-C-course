@@ -28,11 +28,11 @@ int main(){
     <<"Introduce the values:"<<endl; 
     cout<<"The work frequency of the sistem in MHz is: ";  
     cin>>f; 
-    cout<<"The heigh of the trasmissor antenna hb in meters is: ";
+    cout<<"The heigh of the trasmissor antenna hb, in meters, is: ";
     cin>>hb; 
-    cout<<"The heigh of the receiver antenna hm, in meters is: ";
+    cout<<"The heigh of the receiver antenna hm, in meters, is: ";
     cin>>hm; 
-    cout<<"The distance between them d, in kilometers is: "; 
+    cout<<"The distance between them d, in kilometers, is: "; 
     cin>>d;
      
     L_dB = OkumuraHata(f,hb,hm,d);
