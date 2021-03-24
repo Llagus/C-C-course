@@ -2,6 +2,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include "C++_course/graph.h"
 
 using namespace std;
 

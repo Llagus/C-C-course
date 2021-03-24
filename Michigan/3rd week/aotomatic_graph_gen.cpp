@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime> 
 #include <cstdlib>
+#include "C++_course/shit.h"
 using namespace std; 
 
 double prob(){
